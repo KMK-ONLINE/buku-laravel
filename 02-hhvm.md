@@ -126,11 +126,289 @@ Instalasi selesai, berikutnya kita akan mempelajari dasar-dasar bahasa pemrogram
 
 ## Memahami Hack Language ##
 
+Hack language adalah pengembangan dari PHP. Dengan demikian, sebagian besar konstruksi bahasanya sama. Bila kita sudah menguasai pemrograman PHP, maka tidak butuh waktu lama untuk bisa menguasai Hack.
+
+Untuk menulis kode program Hack, perbedaan pertama dengan PHP adalah awalan file. Di PHP kita biasa menulis seperti ini
+
+```php
+<?php
+```
+
+Sedangkan di Hack, kita tulis seperti ini
+
+```
+<?hh
+```
+Selanjutnya, mari kita bahas seluk beluk pemrograman Hack yang lainnya. Bila ada yang berbeda dengan PHP, saya akan berikan penjelasan.
+
+### Mode ###
+
+Hack bisa dioperasikan dalam tiga mode:
+
+* strict : semua tipe data harus dideklarasikan, baik dalam deklarasi variabel maupun deklarasi function dan parameternya
+* partial : ini adalah mode default dalam Hack. Dalam mode ini, kita boleh mendeklarasikan tipe data, boleh juga tidak.
+* decl : mode ini memungkinkan kita menulis dalam mode strict, tapi memanggil kode program yang ditulis tanpa deklarasi tipe data.
+
+Mode dipasang di awal file, contohnya seperti ini
+
+```php
+<?hh // strict
+
+class Pelanggan {
+    private string $nama;
+}
+
+```
+
 ### Statement dan Comment ###
+
+Statement di Hack sama dengan statement di PHP, yaitu diakhiri dengan tanda `;` seperti ini:
+
+```php
+echo("Halo Hack");
+```
+
+Sedangkan komentar ditandai dengan `//` untuk satu baris, serta pasangan `/*` dan `*/` untuk banyak baris. Contohnya seperti ini:
+
+```php
+// menampilkan tulisan Halo
+echo("Halo");
+```
+
+dan ini
+
+```php
+/* kode program ini menampilkan
+ * tulisan halo ke layar browser
+ */
+echo("halo");
+```
 
 ### Variabel dan Tipe Data ###
 
+Dalam masalah deklarasi variabel, Hack menambahkan fitur yang disebut **type annotations**, yaitu penulisan tipe data pada variabel. Bila di PHP kita mendeklarasikan variabel `x` seperti ini
+
+```php
+$x;
+```
+
+Maka dalam Hack, kita lakukan seperti ini
+
+```php
+int $x;
+```
+
+Hack menyediakan beberapa tipe data, yaitu:
+
+* Tipe data sederhana
+
+    * int : menyimpan bilangan bulat
+    * float : menyimpan bilangan pecahan
+    * string : menyimpan rangkaian huruf, angka, dan tanda baca
+    * bool : nilai true atau false
+    * array : kumpulan data dengan tipe data tertentu
+
+* Tipe data gabungan
+
+    * num : boleh diisi int maupun float
+    * arraykey : boleh diisi integer atau string
+
+* Tipe data lain-lain
+
+    * mixed
+    * void : bila suatu function tidak mengembalikan apa-apa
+    * ?int, ?string, dan sejenisnya : bila variabel tersebut boleh null
+    * tuple : kumpulan data yang immutable (sekali dibuat tidak bisa diubah). Yang tidak boleh diubah adalah struktur tuple (berapa isinya, tipe data masing-masing elemen), sedangkan isinya sendiri boleh diganti
+
+Tipe data `array` hanya boleh dipakai dalam mode `partial` atau `decl`. Bila kita menjalankan Hack dalam mode `strict`, maka `array` tidak boleh dipakai. Kita harus pakai tipe data collection seperti `Vector`, `Map`, atau `Set`.
+
+### Operator ###
+
+
+Operator digunakan untuk memanipulasi nilai suatu variabel. Variabel yang nilainya dimodifikasi oleh operator disebut operand. Contoh penggunaan operator misalnya `13 - 3`. `13` dan `3` adalah operand. Tanda `-` disebut operator.
+
+Untuk kemudahan penjelasan, operator diklasifikasikan menjadi :
+
+* Arithmetic Operator
+* Assignment Operator
+* Comparison Operator
+* Logical Operator
+* Lain-lain
+
+
+Arithmetic Operator digunakan untuk melakukan perhitungan matematika. Misalnya
+
+```php
+$a = 5 + 3;
+```
+Operator `+` berfungsi untuk menambahkan kedua operand (5 dan 3). 
+
+Ada beberapa arithmetic operator, yaitu :
+
+* `+` : penjumlahan - : pengurangan 
+* `*` : perkalian
+* `/` : pembagian
+* `%` : nilai sisa pembagian
+
+
+Relational operator digunakan untuk membandingkan nilai dari dua operand. Hasil perbandingan dinyatakan dalam nilai boolean. TRUE berarti benar, dan FALSE berarti salah.
+
+Beberapa jenis relational operator :
+* `==` : memeriksa apakah operand kanan bernilai sama dengan operand kiri
+* `>` : memeriksa apakah operand kiri bernilai lebih besar daripada operand kanan
+* `<` : memeriksa apakah operand kiri bernilai lebih kecil dengan operand kanan
+* `>`= : memeriksa apakah operand kiri bernilai lebih besar atau sama dengan operand kanan
+* `<=` : memeriksa apakah operand kiri bernilai lebih kecil atau sama dengan operand kanan
+* `!=` : memeriksa apakah operand kanan tidak bernilai sama dengan operand kiri
+
+Logical Operator digunakan untuk membandingkan dua nilai variabel yang bertipe boolean. Hasil yang didapat dari penggunaan logical operator adalah boolean.
+
+Tabel logika berikut digunakan sebagai pedoman perhitungan
+
+![Tabel logika](img/hhvm/tabel-logika.png)
+
+
+Assignment operator digunakan untuk memberi/mengisi nilai ke dalam variabel tertentu. Contoh sederhana :
+
+```php
+$nama = "endy";
+
+Pada contoh di atas, operator "=" digunakan untuk mengisi nilai "endy" ke dalam variabel nama.
+Selain operator "=", ada beberapa assignment operator yang lainnya, seperti dapat dilihat pada penjelasan berikut :
+
+* Operator `+=` : Menambahkan nilai pada variabel
+
+Contoh :
+```php
+$a += 3;
+```
+sama dengan
+```php
+$a = $a + 3;
+```
+
+Operator -= : Mengurangi nilai pada variabel 
+
+Contoh :
+```php
+$a -= 3;
+```
+sama dengan
+```php
+$a = $a - 3;
+```
+
+Operator * : Mengalikan variabel dengan bilangan tertentu
+
+Contoh :
+```php
+$a *= 3;
+```
+sama dengan
+```php
+$a = $a * 3;
+```
+
+
+Operator / : Membagi variabel dengan bilangan tertentu
+
+Contoh :
+```php
+$a /= 3;
+```
+sama dengan
+```php
+$a = $a / 3;
+```
+
+Operator % : Mencari sisa hasil bagi variabel dengan bilangan tertentu
+
+Contoh :
+```php
+$a %= 3;
+```
+sama dengan
+```php
+$a = $a % 3;
+```
+
+Operator & : Melakukan operasi logical AND pada variabel
+
+Contoh :
+```php
+$a &= TRUE;
+```
+sama dengan
+```php
+$a = $a & TRUE;
+```
+
+Operator | : Melakukan operasi logical OR pada variabel
+
+Contoh :
+```php
+$a |= FALSE;
+```
+sama dengan
+```php
+$a = $a | FALSE;
+```
+
+Operator ^ : Melakukan operasi bitwise xor pada variabel
+
+Contoh :
+```php
+$a ^= 3;
+```
+sama dengan
+```php
+$a = $a ^ 3;
+```
+
+
+Operator . : Menambahkan String pada variabel
+
+Contoh :
+```php
+$a .= “rudi”;
+```
+sama dengan
+```php
+$a = $a . “rudi”;
+```
+
+Operator + : Menambahkan nilai satu pada variabel
+
+Contoh :
+$a ++ ;
+```
+sama dengan
+```php
+$a = $a + 1;
+```
+
+Operator - : 
+Mengurangi nilai satu pada variabel 
+
+Contoh :
+```php
+$a -- ;
+```
+sama dengan
+```php
+$a = $a - 1;
+```
+
+
 ### Conditional ###
+
+Conditional sama dengan di PHP, yaitu ada `if-else` dan juga ada `switch`. Contohnya seperti ini:
+
+```php
+
+if($a == 
+
+```
 
 ### Looping ###
 
