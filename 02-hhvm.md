@@ -272,6 +272,7 @@ Assignment operator digunakan untuk memberi/mengisi nilai ke dalam variabel tert
 
 ```php
 $nama = "endy";
+```
 
 Pada contoh di atas, operator "=" digunakan untuk mengisi nilai "endy" ke dalam variabel nama.
 Selain operator "=", ada beberapa assignment operator yang lainnya, seperti dapat dilihat pada penjelasan berikut :
@@ -400,17 +401,162 @@ $a = $a - 1;
 ```
 
 
-### Conditional ###
+### Percabangan  ###
 
-Conditional sama dengan di PHP, yaitu ada `if-else` dan juga ada `switch`. Contohnya seperti ini:
+Percabangan, atau sering disebut juga dengan istilah decision-making, memungkinkan aplikasi untuk memeriksa isi suatu variabel atau hasil perhitungan ekspresi dan mengambil tindakan yang sesuai. Ada dua jenis percabangan, dipilih berdasarkan kriteria pemeriksaan dan jumlah pilihan yang tersedia.
+
+Seperti pada PHP, Hack memiliki dua jenis percabangan:
+
+* if-else
+* switch
+
+Konstruksi if-else dapat dijelaskan sebagai berikut :
 
 ```php
-
-if($a == 
-
+if(condition){   
+    // statement 1 
+} else {   
+    // statement 2 
+}
+// statement 3 goes here
 ```
 
+Aliran program :
+
+1. Condition akan diperiksa
+2. Bila bernilai true, statement 1 akan dijalankan
+3. Bila bernilai false, statement 2 akan dijalankan
+4. Statement 3 dijalankan
+
+Untuk pilihan yang lebih dari dua, PHP menyediakan konstruksi if-elseif- else.
+
+```php
+if(condition1){
+     // statement 1
+}
+elseif(condition2){
+     // statement 2
+} else {
+     // statement 3
+}
+// statement 4
+```
+
+Aliran program :
+Ada 3 kemungkinan aliran program :   
+
+Apabila condition 1 bernilai true :
+
+1. Statement 1 dijalankan
+2. Statement 4 dijalankan
+
+Apabila condition 1 bernilai false, dan condition 2 bernilai true :
+
+1. Statement 2 dijalankan
+2. Statement 4 dijalankan
+
+Apabila condition 1 dan condition 2 bernilai false :
+
+1. Statement 3 dijalankan
+2. Statement 4 dijalankan
+
+Konstruksi switch dapat dijelaskan sebagai berikut :
+
+```php
+switch(a){
+  case 1;
+    // statement 1 goes here
+    break;
+  case 2;
+    // statement 2 goes here
+    break;
+  case 3;
+    // statement 3 goes here
+    break;
+  default;
+    // statement 4 goes here
+    break; 
+}
+// statement 5 goes here
+```
+
+Aliran program :
+
+1. Variabel a diperiksa
+2. Statement dieksekusi
+
+    * Apabila a==1,statement 1 dijalankan 
+    * Apabila a==2,statement 2 dijalankan
+    * Apabila a == 3, statement 3 dijalankan
+    * Apabila a tidak memenuhi 2a-2c, statement 4 dijalankan
+
+3. Statement 5 dijalankan
+
+Keyword break memegang peranan penting di sini. Fungsinya adalah mencegah fall-through, bandingkan dengan program berikut(break di baris ke 5 dihilangkan)
+
+```php
+switch(a){
+    case 1;
+    // statement 1 goes here
+    case 2;
+    // statement 2 goes here
+    break;
+    case 3;
+    // statement 3 goes here
+    break;
+    default;
+    // statement 4 goes here
+    break; 
+}
+```
+
+Aliran program :
+
+1. variabel a diperiksa
+
+    * Apabila a == 1, statement 1 dijalankan, kemudian menjalankan statement 2.
+    * Apabila a == 2, statement 2 dijalankan
+    * Apabila a == 3, statement 3 dijalankan
+    * Apabila a tidak memenuhi 2a - 2c, statement 4 dijalankan
+
+2. Statement 5 dijalankan
+
+Perbedaan ada pada langkah 2a. Bandingkan dengan listing pertama.
+
 ### Looping ###
+
+Ada dua bentuk perulangan pada Hack dan PHP:
+
+* for
+* while
+
+Looping dengan for disebut juga determinate loop, artinya looping yang jumlah pengulangannya (iterasi) telah ditentukan di awal looping.
+
+Ada beberapa bagian penting dari for loop:
+
+* Initialization expression
+* Stop condition
+* Iterative expression
+* Loop body
+
+Initialization Expression dijalankan satu kali, pada saat looping dimulai. Biasanya bagian ini digunakan untuk menginisialisasi counter(penghitung). Stop condition diperiksa nilainya sebelum setiap iterasi dieksekusi. Apabila condition bernilai false, iterasi dihentikan. Iterative expression dilakukan setelah iterasi dieksekusi. Bagian ini biasanya digunakan untuk menambah nilai counter. Loop body dieksekusi sekali setiap iterasi, merupakan perintah yang ingin kita lakukan berulang-ulang.
+
+While loop juga dikenal dengan istilah indeterminate loop, artinya jumlah loopingnya tidak ditentukan pada awal looping. while loop lebih sederhana daripada for loop, karena cuma memiliki dua bagian:
+
+* Stop Condition
+* Loop body
+
+Stop condition diperiksa sebelum tiap iterasi dilaksanakan. Selama stop condition bernilai true, perintah dalam loop body akan dilakukan berulang-ulang. Iterasi akan dihentikan apabila stop condition bernilai false.
+Sama seperti pada for loop, loop body dilaksanakan satu kali setiap iterasi.
+Loop di atas akan berjalan terus tanpa henti, karena tidak ada perintah yang mengubah nilai stop condition.
+do-while loop merupakan modifikasi dari while loop. Bentuknya dapat dilihat pada sampel kode berikut:
+
+```php
+do{
+  // some statement
+}
+while (a == true)
+```
 
 ### Function dan Lambda ###
 
