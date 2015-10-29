@@ -41,6 +41,14 @@ Deklarasi tipe data, walaupun terlihat merepotkan, ternyata meningkatkan produkt
 
 Karena bila kita melakukan verifikasi tipe data di tahap kompilasi, error akan lebih cepat ditemukan daripada verifikasi pada waktu aplikasi dijalankan (runtime). Semakin cepat error kita temukan, semakin murah ongkos perbaikannya, karena kita masih ingat apa yang baru saja kita ketik. Bila error ini terbawa ke runtime, bisa jadi baru ditemukan berbulan-bulan kemudian. Pada saat itu, kita sudah lupa kapan kita tulis, mengapa kita tulis, apa relasinya dengan modul-modul lain, dan berbagai informasi lain yang penting untuk bisa memperbaiki error. 
 
+Ada beberapa perubahan penting dalam Hack yang perlu kita ingat:
+
+* Kode program Hack tidak bisa digabung dengan HTML
+* File berisi kode program Hack diawali dengan `<?hh`
+* File tidak perlu diakhiri dengan penutup tag `?>`
+* Hack memiliki beberapa mode : partial, strict, mixed
+* Bila tetap ingin memasang kode HTML, gunakan XHP
+
 Baiklah, bahasa Hack lebih bagus, HHVM lebih kencang. Lalu bagaimana cara pakainya? Mari kita lanjutkan ke instalasi.
 
 ## Instalasi HHVM ##
@@ -560,5 +568,144 @@ while (a == true)
 
 ### Function dan Lambda ###
 
+Function adalah kumpulan beberapa statement yang dibuat dengan tujuan menyelesaikan satu tugas tertentu.
+
+Perhatikan kode berikut :
+
+```php
+function add($a, $b){
+  return $a + $b;
+}
+```
+
+Function sederhana di atas akan menerima masukan berupa dua angka. Kemudian kedua angka tersebut akan dijumlahkan, dan hasilnya dikembalikan kepada pemanggil function.
+Nilai yang dikembalikan tersebut disebut return value. Sedangkan nilai yang dimasukkan ke dalam function ($a dan $b) disebut parameter.
+
+Ada beberapa hal utama yang perlu diperhatikan dalam deklarasi function pada PHP.
+
+* nama function
+* parameter
+* function body
+
+```php
+1 function addNumber($x, $y) {
+2   $z=$x+$y;
+3   echo($z);
+4 }
+5
+6 function jumlahkanlah($x, $y) {
+7   $z=$x+$y;
+8   return $z;
+9 }
+```
+
+Perhatikan contoh function addNumber di atas.
+
+Baris satu merupakan deklarasi function. deklarasi berisi : 
+
+- keyword function
+- nama function
+- parameter
+
+Parameter adalah nilai yang dimasukkan ke dalam function untuk diproses sehingga menghasilkan output.
+
+Nama function ditentukan dengan memenuhi aturan sebagai berikut :
+* Tidak boleh sama dengan function yang telah ada dalam PHP.
+* Hanya boleh terdiri dari huruf, angka, dan garis bawah (underscore)
+* Tidak boleh diawali dengan angka
+
+Perhatikan baris 1 sampai 4.
+* Function body dibatasi oleh sepasang { dan }
+* Function body berisi instruksi yang harus dilakukan komputer untuk menghasilkan output yang diinginkan.
+* Baris 2 menyuruh komputer untuk membuat satu variabel bernama z yang isinya adalah hasil penjumlahan x dan y.
+* x dan y didapat dari input yang diberikan user.
+
+Baris 3 menyuruh komputer untuk menampilkan hasil perhitungan ke layar.
+Bedakan dengan baris 8 pada function jumlahkanlah yang memerintahkan komputer untuk menampilkan hasil perhitungan di layar
+
+Function dalam HHVM dilengkapi dengan keterangan tipe data (type annotation). Berikut contoh versi HHVM untuk deklarasi function di atas
+
+```php
+1 function addNumber(int $x, int $y) : void {
+2   int $z=x+y;
+3   echo($z);
+4 }
+5
+6 function jumlahkanlah(int $x, int $y) : int {
+7   int $z=$x+$y;
+8   return $z;
+9 }
+```
+
 ### Class dan Object ###
+
+Class dan Object adalah dasar pemrograman berorientasi objek. Dengan class, kita mendefinisikan tipe data kita sendiri, sehingga kode program lebih mudah dibaca dan dipahami.
+
+Sebagai ilustrasi, coba bandingkan penyimpanan data berikut ini
+
+```php
+
+// simpan data
+$a["nama"] = "endy";
+$a["email"] = "endy.muhardin@gmail.com";
+
+
+// gunakan data secara benar
+echo("Nama saya : " . $a["nama"]);
+echo("Email saya : " . $a["email"]);
+
+// ini sebetulnya salah, karena tidak ada data alamat, tapi tidak error
+echo("Alamat saya : " . $a["alamat"]);
+```
+
+Bandingkan dengan bila kita mendefinisikan class seperti ini
+
+```php
+class Customer {
+    string $nama;
+    string $email;
+}
+```
+
+Dari deklarasi class di atas, jelas bahwa seorang `Customer` hanya menyimpan dua data, yaitu `nama` dan `email`. Kita bisa mengisi data seperti ini
+
+```php
+$a = new Customer();
+$a->nama = "endy";
+$a->email = "endy.muhardin@gmail.com";
+```
+
+Dan bila kita mengakses data secara sembarangan, kita akan mendapat pesan error
+
+```php
+$a->alamat = "Jakarta"; // ini akan menimbulkan pesan error Undefined property
+```
+
+Class bisa berisi data/property dan juga function/method. Berikut contohnya
+
+```php
+class PenyimpananCatatan {
+    
+    public function __construct(protected string $namafile) : void {}
+
+    public function simpan(string $catatan) : void {
+        echo("Menyimpan $catatan ke $this->namafile");
+    }
+}
+```
+
+Kita bisa gunakan class di atas dengan membuat dulu objeknya, kemudian menggunakannya untuk menyimpan data ke file. Contohnya seperti ini
+
+```php
+$penyimpanan = new PenyimpananCatatan("/home/endy/notes.txt");
+
+$penyimpanan.simpan("ini catatan saya");
+```
+
+Bila dijalankan, kode program tersebut akan menampilkan
+
+```
+Menyimpan ini catatan saya ke /home/endy/notes.txt
+```
+
 
