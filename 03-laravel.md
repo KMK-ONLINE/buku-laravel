@@ -93,6 +93,72 @@ Setelah konfigurasi selesai, kita bisa mencoba mengakses ke `http://namaserver-a
 
 ## Akses Database dengan Laravel ##
 
+
+### Instalasi Database ###
+
+Dalam buku ini, kita akan menggunakan database PostgreSQL versi 9. Untuk menginstalnya di Ubuntu, kita ketikkan perintah berikut
+
+```
+sudo apt-get install postgresql -y
+```
+
+Perintah di atas akan menginstall PostgreSQL versi terbaru, yaitu 9.3 pada saat tulisan ini dibuat.
+
+Selanjutnya, ada sedikit konfigurasi jaringan yang perlu kita lakukan. Edit file `/etc/postgresql/9.3/main/pg_hba.conf` menjadi seperti ini
+
+```
+local   all         all                           password
+host    all         all         127.0.0.1/32      password
+host    all         all         ::1/128           password
+```
+
+Konfigurasi di atas memungkinkan kita login dengan menggunakan username dan password, sedangkan konfigurasi sebelumnya (bawaan Ubuntu) mengharuskan kita login menggunakan username dan password sistem operasi.
+
+Setelah file tersebut diedit, kita perlu merestart PostgreSQL agar konfigurasi tersebut aktif.
+
+```
+sudo service postgresql restart 
+```
+
+Kita perlu membuat user database untuk aplikasi kita. Pertama, kita ganti dulu user sistem operasi dari `root` menjadi `postgres`.
+
+```
+su - postgres
+```
+
+Kemudian, gunakan perintah `createuser` dengan opsi `-P` agar kita bisa mengisi password dan opsi `--interactive` agar kita bisa menentukan ijin akses user yang akan dibuat.
+
+```
+createuser --interactive -P
+Enter name of role to add: tiket
+Enter password for new role:
+Enter it again:
+Shall the new role be a superuser? (y/n) n
+Shall the new role be allowed to create databases? (y/n) y
+Shall the new role be allowed to create more new roles? (y/n) n 
+```
+
+Setelah selesai, keluar dari user `postgres` dan menjadi user biasa. Lalu jalankan perintah `createdb` untuk membuat database baru. Gunakan user tiket yang baru saja kita buat dengan opsi `-U`
+
+```
+createdb -U tiket dbtiket
+Password:
+```
+
+Kita sudah bisa membuka database `dbtiket` dengan user `tiket` dan password sesuai yang kita masukkan.
+
+```
+psql -U tiket dbtiket
+Password for user tiket: 
+psql (9.3.10)
+Type "help" for help.
+
+dbtiket=> \d
+No relations found.
+```
+
+Database kita siap dipakai.
+
 ### Apa itu Eloquent ORM ###
 
 ### Desain skema database ###
