@@ -472,16 +472,16 @@ Konstruksi switch dapat dijelaskan sebagai berikut :
 
 ```php
 switch(a){
-  case 1;
+  case 1:
     // statement 1 goes here
     break;
-  case 2;
+  case 2:
     // statement 2 goes here
     break;
-  case 3;
+  case 3:
     // statement 3 goes here
     break;
-  default;
+  default:
     // statement 4 goes here
     break; 
 }
@@ -504,15 +504,15 @@ Keyword break memegang peranan penting di sini. Fungsinya adalah mencegah fall-t
 
 ```php
 switch(a){
-    case 1;
+    case 1:
     // statement 1 goes here
-    case 2;
+    case 2:
     // statement 2 goes here
     break;
-    case 3;
+    case 3:
     // statement 3 goes here
     break;
-    default;
+    default:
     // statement 4 goes here
     break; 
 }
