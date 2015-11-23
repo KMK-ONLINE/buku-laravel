@@ -389,9 +389,13 @@ $a = $a . “rudi”;
 Operator + : Menambahkan nilai satu pada variabel
 
 Contoh :
-$a ++ ;
+
+```php
+$a++ ;
 ```
+
 sama dengan
+
 ```php
 $a = $a + 1;
 ```
